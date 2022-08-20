@@ -4,6 +4,7 @@
 # Print partnerName and certification to console and print
 # If no partnerName is returned, print "No partner found" and exit
 # If no certification is returned, print "No certification found" and exit
+from textwrap import indent
 
 import requests
 import json
@@ -60,12 +61,17 @@ responsecompany = input("Enter company name: ")
 
 # parse JSON response and return partnerName and certification to console and print to console
 
-partnerName = response.json()['entity'][0][0]['partnerName']
+partnerName = response.json()['entity'][0][0]['partnerNameBeGeoName']
 certification = response.json()['entity'][0][0]['certification']
+# format the json response to be readable and print to console
+specialization = response.json()['entity'][0][0]['specialization']
+specialization_pretty = json.dumps(specialization, indent=4)
+specialization_pretty = json.loads(specialization_pretty) # convert to dictionary
 
 # Create if statement to check user input against partnerName
 if responsecompany == partnerName:
   print(partnerName, certification)
+  print(specialization_pretty)
 else:
     print("No partner found")
     sys.exit()
